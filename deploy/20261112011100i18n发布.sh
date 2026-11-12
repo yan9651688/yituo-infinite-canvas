@@ -40,22 +40,24 @@ remove_preview() {
 
 check_canvas() {
     local port=$1 scheme=$2
-    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/infinite-canvas/" --resolve "$domain:$port:127.0.0.1" | grep -F '易拓画布' >/dev/null
-    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/infinite-canvas/yituo-logo.png" --resolve "$domain:$port:127.0.0.1" -o /dev/null
-    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/api/settings" --resolve "$domain:$port:127.0.0.1" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["code"] == 0 and d["data"]["modelChannel"]["allowCustomChannel"] is True'
+    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/infinite-canvas/" --resolve "$domain:$port:127.0.0.1" | grep -F '易拓画布' >/dev/null || return 1
+    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/infinite-canvas/yituo-logo.png" --resolve "$domain:$port:127.0.0.1" -o /dev/null || return 1
+    curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/api/settings" --resolve "$domain:$port:127.0.0.1" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["code"] == 0 and d["data"]["modelChannel"]["allowCustomChannel"] is True' || return 1
     local status
-    status=$(curl --silent --show-error --max-time 15 -o /dev/null -w '%{http_code}' -X POST "$scheme://$domain:$port/api/anonymous/files/session" --resolve "$domain:$port:127.0.0.1")
-    [[ "$status" == 204 ]]
-    curl --fail --silent --show-error --max-time 15 -D - -o /dev/null "$scheme://$domain:$port/infinite-canvas/" --resolve "$domain:$port:127.0.0.1" | grep -F 'frame-ancestors' >/dev/null
+    status=$(curl --silent --show-error --max-time 15 -o /dev/null -w '%{http_code}' -X POST "$scheme://$domain:$port/api/anonymous/files/session" --resolve "$domain:$port:127.0.0.1") || return 1
+    [[ "$status" == 204 ]] || return 1
+    curl --fail --silent --show-error --max-time 15 -D - -o /dev/null "$scheme://$domain:$port/infinite-canvas/" --resolve "$domain:$port:127.0.0.1" | grep -F 'frame-ancestors' >/dev/null || return 1
     if [[ "$port" == 443 ]]; then
-        curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/comic/" --resolve "$domain:$port:127.0.0.1" -o /dev/null
+        curl --fail --silent --show-error --max-time 15 "$scheme://$domain:$port/comic/" --resolve "$domain:$port:127.0.0.1" -o /dev/null || return 1
     fi
+    return 0
 }
 
 check_direct() {
-    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$API_PORT/api/health" | grep -Fx 'ok' >/dev/null
-    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$WEB_PORT/infinite-canvas/" | grep -F '易拓画布' >/dev/null
-    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$WEB_PORT/infinite-canvas/yituo-logo.png" -o /dev/null
+    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$API_PORT/api/health" | grep -Fx 'ok' >/dev/null || return 1
+    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$WEB_PORT/infinite-canvas/" | grep -F '易拓画布' >/dev/null || return 1
+    curl --fail --silent --show-error --max-time 10 "http://127.0.0.1:$WEB_PORT/infinite-canvas/yituo-logo.png" -o /dev/null || return 1
+    return 0
 }
 
 case "$action" in
