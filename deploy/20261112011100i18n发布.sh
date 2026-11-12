@@ -75,8 +75,10 @@ candidate)
         API_PORT=$((API_PORT + 2))
         (( WEB_PORT <= 13050 )) || { printf 'No free canvas ports\n' >&2; exit 1; }
     done
+    node_bin=$(command -v node)
+    [[ -x "$node_bin" ]] || { printf 'Node runtime not found: %s\n' "$node_bin" >&2; exit 1; }
     umask 077
-    printf 'WEB_PORT=%s\nAPI_PORT=%s\n' "$WEB_PORT" "$API_PORT" > "$release_dir/ports.env"
+    printf 'WEB_PORT=%s\nAPI_PORT=%s\nNODE_BIN=%s\n' "$WEB_PORT" "$API_PORT" "$node_bin" > "$release_dir/ports.env"
     sed -i "s/__WEB_PORT__/$WEB_PORT/g; s/__API_PORT__/$API_PORT/g" "$release_dir/canvas-locations.conf"
     if [[ ! -f "$shared/app.env" ]]; then
         {
@@ -98,13 +100,13 @@ candidate)
     systemctl daemon-reload
     systemctl enable --now "yituo-canvas@$release"
     ready=false
-    for _ in {1..45}; do
+    for _ in {1..120}; do
         if check_direct; then ready=true; break; fi
         sleep 1
     done
     if [[ "$ready" != true ]]; then
         systemctl stop "yituo-canvas@$release" || true
-        journalctl -u "yituo-canvas@$release" -n 40 --no-pager || true
+        journalctl -u "yituo-canvas@$release" --no-pager | grep -E 'node|Error|error|not found|failed|FAILURE|Listening|Started|Stopped' | tail -100 || true
         exit 1
     fi
     sed "s/__RELEASE_ID__/$release/g" "$release_dir/deploy/canvas-preview.conf" > "$preview_conf"
