@@ -16,6 +16,7 @@ import { CanvasAssistantComposer } from "./canvas/components/canvas-assistant-co
 import { useCanvasStore } from "./canvas/stores/use-canvas-store";
 import { canvasResourceLabel } from "./canvas/utils/canvas-resource-references";
 import { HomeBannerCarousel, type HomeBanner } from "./home-banner-carousel";
+import { appAsset } from "@/constant/env";
 import {
     MAX_CANVAS_AGENT_SKILLS,
     CanvasNodeType,
@@ -28,12 +29,10 @@ import {
 
 
 const HOME_BANNERS: HomeBanner[] = [
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.7/img/infinite-canvas/88.webp", videoUrl: "", linkUrl: "https://88api.ai/sign-up?aff=25ty", alt: "1" },
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.6/img/infinite-canvas/metaso.webp", videoUrl: "", linkUrl: "https://metaso.cn/minimax-h3/?s=tt", alt: "2" },
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.5/img/infinite-canvas/3ddirectortl.webp", videoUrl: "", linkUrl: "", alt: "3" },
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.4/img/infinite-canvas/agent.webp", videoUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.4/img/infinite-canvas/agent.webm", linkUrl: "", alt: "4" },
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.4/img/infinite-canvas/panorama.webp", videoUrl: "", linkUrl: "", alt: "5" },
-    { imageUrl: "https://gcore.jsdelivr.net/gh/tigerowo/cdn-tdeh@v0.4/img/infinite-canvas/3ddirector.webp", videoUrl: "", linkUrl: "", alt: "6" },
+    { imageUrl: appAsset("/banners/director-timeline.webp"), videoUrl: "", linkUrl: "", alt: "3D 导演台时间轴" },
+    { imageUrl: appAsset("/banners/agent.webp"), videoUrl: appAsset("/banners/agent.webm"), linkUrl: "", alt: "画布 Agent" },
+    { imageUrl: appAsset("/banners/panorama.webp"), videoUrl: "", linkUrl: "", alt: "全景图生成" },
+    { imageUrl: appAsset("/banners/director.webp"), videoUrl: "", linkUrl: "", alt: "3D 导演台" },
 ];
 
 function toPendingAgentAsset(payload: InsertAssetPayload, label: string): PendingAgentAsset {
@@ -171,7 +170,7 @@ export default function IndexPage() {
                             </div>
                             <p className="mt-3 text-base leading-7 text-stone-500 dark:text-stone-400">收藏稳定出图的提示词、参考风格和结果图片，让下一次创作从已有经验开始。</p>
                         </div>
-                        <Button type="link" href="/prompts" className="justify-self-center md:justify-self-end" icon={<ArrowRight className="size-4" />} iconPlacement="end">
+                        <Button type="link" href={appAsset("/prompts")} className="justify-self-center md:justify-self-end" icon={<ArrowRight className="size-4" />} iconPlacement="end">
                             提示词库
                         </Button>
                     </div>
@@ -206,6 +205,12 @@ export default function IndexPage() {
                         ))}
                     </div>
                 </section>
+                <footer className="mx-auto mb-8 flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-stone-200 pt-5 text-center text-xs text-stone-500 dark:border-stone-800 dark:text-stone-400">
+                    <span>易拓 AI · 易拓画布</span>
+                    <span aria-hidden>·</span>
+                    <span>基于 <a href="https://github.com/tigerowo/infinite-canvas" target="_blank" rel="noreferrer" className="underline underline-offset-2">tigerowo / Infinite Canvas</a> 开源项目</span>
+                    <a href="https://github.com/yan9651688/yituo-infinite-canvas" target="_blank" rel="noreferrer" className="underline underline-offset-2">定制版源码 · AGPL-3.0</a>
+                </footer>
             </section>
             <AssetPickerModal
                 open={assetPickerOpen}

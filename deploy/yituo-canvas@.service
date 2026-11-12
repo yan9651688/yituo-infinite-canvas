@@ -1,0 +1,24 @@
+[Unit]
+Description=Yituo Infinite Canvas (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=runner
+Group=runner
+WorkingDirectory=/opt/yituo-infinite-canvas/releases/%i
+Environment=NODE_BIN=/usr/bin/node
+Environment=HOSTNAME=127.0.0.1
+EnvironmentFile=/opt/yituo-infinite-canvas/shared/app.env
+EnvironmentFile=/opt/yituo-infinite-canvas/releases/%i/ports.env
+ExecStart=/opt/yituo-infinite-canvas/releases/%i/docker-entrypoint.sh
+Restart=always
+RestartSec=3
+TimeoutStopSec=30
+KillSignal=SIGTERM
+SuccessExitStatus=0
+SyslogIdentifier=yituo-canvas
+
+[Install]
+WantedBy=multi-user.target

@@ -17,8 +17,8 @@ export function GitHubLink({ className, style }: GitHubLinkProps) {
             href="https://github.com/tigerowo/infinite-canvas"
             target="_blank"
             rel="noreferrer"
-            aria-label="GitHub"
-            title="GitHub"
+            aria-label="Infinite Canvas 原项目（tigerowo）"
+            title="Infinite Canvas 原项目（tigerowo）"
         >
             <GithubOutlined className="text-base" />
         </a>

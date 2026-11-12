@@ -7,8 +7,8 @@ import "./globals.css";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "无限画布",
-    description: "一个无限画布创作工具",
+    title: "易拓画布 · 易拓 AI",
+    description: "易拓 AI 无限画布工作台，支持图片、视频、音频与创作工作流。",
 };
 
 export default function RootLayout({

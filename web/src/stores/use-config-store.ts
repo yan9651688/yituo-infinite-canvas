@@ -113,7 +113,7 @@ export type ModelCapabilities = Partial<Record<string, ModelCapability>>;
 
 export const defaultConfig: AiConfig = {
     channelMode: "local",
-    baseUrl: "https://api.openai.com",
+    baseUrl: "https://www.yituohub.si",
     apiKey: "",
     model: "gpt-image-2",
     imageModel: "gpt-image-2",

@@ -1,11 +1,17 @@
 #!/bin/sh
 set -eu
 
-PORT=8080 /app/server &
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+API_PORT=${API_PORT:-8080}
+WEB_PORT=${WEB_PORT:-3000}
+NODE_BIN=${NODE_BIN:-node}
+
+cd "$ROOT"
+PORT="$API_PORT" "$ROOT/server" &
 API_PID=$!
 
-cd /app/web
-PORT=3000 node server.js &
+cd "$ROOT/web"
+HOSTNAME=${HOSTNAME:-0.0.0.0} PORT="$WEB_PORT" API_BASE_URL="http://127.0.0.1:$API_PORT" "$NODE_BIN" server.js &
 WEB_PID=$!
 
 shutdown() {

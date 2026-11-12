@@ -91,4 +91,6 @@
 
 - 未登录时画布项目和“我的素材”保存在浏览器本地；登录且账号同步可用时会同步保存到账号/云端，文档中不要忽略未登录本地保存场景。
 - 当前 AI API Key 存在浏览器本地，并由前端直接请求 OpenAI 兼容接口；涉及安全说明时要写清楚。
-- Docker 静态资源路径目前仍是待办项，文档中不要过度承诺生产部署已经完全验证。
+- 易拓定制版主 LOGO 为 `web/public/yituo-logo.png`，页名使用“易拓画布”；保留 `tigerowo/infinite-canvas` 原项目署名和 AGPL-3.0 链接。
+- 生产 Next.js `basePath` 为 `/infinite-canvas`。New API iframe 使用 `apiKey={key}&baseUrl={address}`，本地渠道更新必须经过 `web/src/lib/embedded-config.ts`，不能只改顶层 `baseUrl` / `apiKey`。
+- i18n 不使用 Docker，采用 Go + Next.js standalone 的 systemd 独立实例。发布必须先候选验收再切流，保留 `/comic/` 下载和 Codex CONNECT 白名单，失败恢复 Nginx 与代理配置。

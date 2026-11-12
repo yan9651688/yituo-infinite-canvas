@@ -19,6 +19,8 @@ COPY web ./
 COPY canvas-agent/scripts /app/canvas-agent/scripts
 COPY --from=bridge-build /bridge/ /app/web/public/
 ENV CANVAS_PREBUILT_BRIDGE=1
+ARG NEXT_PUBLIC_BASE_PATH=/infinite-canvas
+ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
 RUN bun run build
 
 # 构建 Go 后端入口。

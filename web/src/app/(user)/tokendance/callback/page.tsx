@@ -8,6 +8,7 @@ import type { TokenDanceOAuthState } from "@/lib/tokendance-oauth";
 import { fetchUserConfig, syncUserModelConfig } from "@/services/api/user-config";
 import { normalizeLocalChannels, useConfigStore } from "@/stores/use-config-store";
 import { useUserStore } from "@/stores/use-user-store";
+import { appAsset } from "@/constant/env";
 
 export default function TokenDanceCallbackPage() {
     const { message } = App.useApp();
@@ -127,7 +128,7 @@ export default function TokenDanceCallbackPage() {
                     status="error"
                     title="TokenDance 授权失败"
                     subTitle={error}
-                    extra={<Button href="/">返回首页</Button>}
+                    extra={<Button href={appAsset("/")}>返回首页</Button>}
                 />
             ) : (
                 <Spin size="large" tip="正在完成 TokenDance 授权……" />

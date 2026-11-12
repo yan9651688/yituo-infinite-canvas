@@ -3,8 +3,8 @@ import { App } from "antd";
 import { APP_VERSION } from "@/constant/env";
 import { parseChangelog, type ReleaseInfo } from "@/lib/release";
 
-const latestVersionUrl = "https://raw.githubusercontent.com/tigerowo/infinite-canvas/main/VERSION";
-const latestChangelogUrl = "https://raw.githubusercontent.com/tigerowo/infinite-canvas/main/CHANGELOG.md";
+const latestVersionUrl = "https://raw.githubusercontent.com/yan9651688/yituo-infinite-canvas/main/VERSION";
+const latestChangelogUrl = "https://raw.githubusercontent.com/yan9651688/yituo-infinite-canvas/main/CHANGELOG.md";
 
 function readLocalReleases(): ReleaseInfo[] {
     try {

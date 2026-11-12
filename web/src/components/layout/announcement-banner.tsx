@@ -5,9 +5,8 @@ import { Carousel, type GetRef } from "antd";
 import { Megaphone, X } from "lucide-react";
 
 const ANNOUNCEMENTS = [
-    <><Megaphone />TokenDance X 百亿 Token 补贴，一键登录即可接入，SD 2 Mini 低至 0.09元/秒 <a href="https://tokendance.space/" target="_blank" rel="noopener" className="underline!">查看详情</a></>,
-    <><Megaphone />无限画布现已支持 RunningHub X ComfyUI 工作流</>,
-    <><Megaphone />微信交流群现已开放 <a href="https://qr.tdeh.uk/ai" target="_blank" rel="noopener" className="underline!">扫码加入</a></>,
+    <><Megaphone />易拓 AI 一键连接，图片、视频、音频与文本模型共用同一个创作工作台</>,
+    <><Megaphone />基于 Infinite Canvas 开源项目，保留原作者信息与 AGPL-3.0 协议 <a href="https://github.com/tigerowo/infinite-canvas" target="_blank" rel="noopener" className="underline!">查看原项目</a></>,
 ];
 const DISMISSED_KEY = "infinite-canvas:announcement-dismissed";
 

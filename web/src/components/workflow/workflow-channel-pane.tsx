@@ -12,6 +12,7 @@ import { createComfyBridge, deleteComfyBridge, inspectComfyBridge, listComfyBrid
 import { inspectRunningHub } from "@/services/api/runninghub";
 import type { AdminModelChannel } from "@/services/api/admin";
 import styles from "./workflow-channel-pane.module.css";
+import { appAsset } from "@/constant/env";
 
 export type WorkflowChannelSettings = {
     id: string;
@@ -193,7 +194,7 @@ export function WorkflowChannelPane({ channel, workflows, token, admin, onChanne
             {newToken && channel.bridgeId === newTokenBridgeId ? <div className="space-y-2 rounded border p-3 text-xs">专用 Token 只显示这一次，关闭后无法找回：<Input.Password readOnly visibilityToggle value={newToken} /><div>下载对应程序，在能访问 ComfyUI 的机器上运行：</div><pre className="overflow-x-auto whitespace-pre-wrap rounded bg-[var(--muted)] p-2 select-text">Windows PowerShell: {windowsBridgeCommand}{"\n"}Linux: {linuxBridgeCommand}</pre><div className="flex gap-2"><Button size="small" onClick={() => void navigator.clipboard.writeText(windowsBridgeCommand).then(() => message.success("Windows 启动命令已复制"))}>复制 Windows 命令</Button><Button size="small" onClick={() => void navigator.clipboard.writeText(linuxBridgeCommand).then(() => message.success("Linux 启动命令已复制"))}>复制 Linux 命令</Button><Button size="small" onClick={() => setNewToken("")}>我已保存</Button></div><div>Linux ARM64：将命令中的 amd64 改为 arm64。</div></div> : null}
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-[var(--ant-color-border-secondary)] bg-[var(--ant-color-fill-quaternary)] px-3 py-2">
                 <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2"><Tag color="blue" className="!m-0 shrink-0">下载 Bridge</Tag><span className="text-xs text-[var(--ant-color-text-secondary)]">在可访问 ComfyUI 的设备运行独立 Bridge，一个 Bridge 可运行该目录中的多条工作流，启动后点击“刷新发现”同步工作流</span></div>
-                <div className="flex flex-wrap gap-2"><Button type="primary" ghost size="small" href="/InfiniteCanvas-ComfyBridge.exe" download>下载 Windows</Button><Button type="primary" ghost size="small" href="/InfiniteCanvas-ComfyBridge-linux-amd64" download>下载 Linux x64</Button><Button type="primary" ghost size="small" href="/InfiniteCanvas-ComfyBridge-linux-arm64" download>下载 Linux ARM64</Button></div>
+                <div className="flex flex-wrap gap-2"><Button type="primary" ghost size="small" href={appAsset("/InfiniteCanvas-ComfyBridge.exe")} download>下载 Windows</Button><Button type="primary" ghost size="small" href={appAsset("/InfiniteCanvas-ComfyBridge-linux-amd64")} download>下载 Linux x64</Button><Button type="primary" ghost size="small" href={appAsset("/InfiniteCanvas-ComfyBridge-linux-arm64")} download>下载 Linux ARM64</Button></div>
             </div>
         </div>}
         <div className="grid gap-3 md:grid-cols-12">

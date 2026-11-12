@@ -11,6 +11,7 @@ import { STORAGE_SYNC_FAILED_EVENT, defaultUserStorageProvider, defaultUserWebDA
 import { defaultConfig, useConfigStore, type AiConfig } from "@/stores/use-config-store";
 import { useUserStore } from "@/stores/use-user-store";
 import { useChannelTranslationStore } from "@/stores/use-channel-translation-store";
+import { resolveEmbeddedConfig } from "@/lib/embedded-config";
 
 export function ClientRootInit({ children }: { children: ReactNode }) {
     const { message } = App.useApp();
@@ -137,9 +138,8 @@ export function ClientRootInit({ children }: { children: ReactNode }) {
             message.error("后台未允许用户自定义渠道，请联系管理员进行配置");
             return;
         }
-        updateConfig("channelMode", "local");
-        if (baseUrl) updateConfig("baseUrl", baseUrl);
-        if (apiKey) updateConfig("apiKey", apiKey);
+        const embedded = resolveEmbeddedConfig(useConfigStore.getState().config, baseUrl, apiKey);
+        Object.entries(embedded).forEach(([key, value]) => updateConfig(key as keyof typeof embedded, value as never));
         openConfigDialog(false);
     }, [message, openConfigDialog, publicSettings, updateConfig]);
 

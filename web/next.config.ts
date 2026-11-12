@@ -8,6 +8,7 @@ import { parseChangelog } from "@/lib/release";
 const webDir = dirname(fileURLToPath(import.meta.url));
 const localVersion = readFileSync(resolve(webDir, "../VERSION"), "utf8").trim() || "dev";
 const localChangelog = readFileSync(resolve(webDir, "../CHANGELOG.md"), "utf8");
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function nextConfig(phase: string): NextConfig {
     const isDev = phase === PHASE_DEVELOPMENT_SERVER;
@@ -15,11 +16,13 @@ export default function nextConfig(phase: string): NextConfig {
 
     return {
         output: "standalone",
+        basePath,
         allowedDevOrigins: isDev ? ["*.*.*.*"] : [],
         typescript: {
             ignoreBuildErrors: true,
         },
         env: {
+            NEXT_PUBLIC_BASE_PATH: basePath,
             NEXT_PUBLIC_APP_VERSION: localVersion,
             NEXT_PUBLIC_APP_RELEASES: JSON.stringify(releases),
         },
